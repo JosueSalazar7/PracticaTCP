@@ -12,12 +12,15 @@ public class clienteTCP {
         //Crear un socket para conectarse al servidor
 
         try {
-            Socket socketCliente = new Socket("localhost", 5000);
+            Socket socketCliente = new Socket("192.168.1.8", 5000);
             BufferedReader entrada = new BufferedReader(new InputStreamReader(socketCliente.getInputStream()));
             PrintWriter salida = new PrintWriter(socketCliente.getOutputStream(), true);
 
             while (true) {
                 // Leer pregunta del servidor
+                while (!entrada.ready()) {
+                    // Esperar hasta que haya datos disponibles
+                }
                 String pregunta = entrada.readLine();
                 if (pregunta == null || pregunta.equals("Fin")) {
                     // Si la pregunta es nula o igual a "Fin", significa que el juego ha terminado
@@ -54,5 +57,5 @@ public class clienteTCP {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+    }
 }

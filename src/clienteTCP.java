@@ -3,18 +3,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class clienteTCP {
     public static void main(String[] args) {
-        Scanner Scanner = new Scanner(System.in);
-        //Crear un socket para conectarse al servidor
-
         try {
             Socket socketCliente = new Socket("192.168.1.8", 5000);
             BufferedReader entrada = new BufferedReader(new InputStreamReader(socketCliente.getInputStream()));
             PrintWriter salida = new PrintWriter(socketCliente.getOutputStream(), true);
+            Scanner scanner = new Scanner(System.in);
 
             while (true) {
                 // Leer pregunta del servidor
@@ -22,8 +19,10 @@ public class clienteTCP {
                     // Esperar hasta que haya datos disponibles
                 }
                 String pregunta = entrada.readLine();
-                if (pregunta == null || pregunta.equals("Fin")) {
+
+                if (pregunta == null || pregunta.equals("Puntaje final:")) {
                     // Si la pregunta es nula o igual a "Fin", significa que el juego ha terminado
+                    System.out.println("Juego terminado");
                     break;
                 }
 
@@ -38,7 +37,7 @@ public class clienteTCP {
 
                 // Obtener la respuesta del usuario
                 System.out.print("Elija su respuesta (1, 2, o 3): ");
-                String respuestaUsuario = Scanner.nextLine();
+                String respuestaUsuario = scanner.nextLine();
 
                 // Enviar la respuesta al servidor
                 salida.println(respuestaUsuario);
@@ -52,8 +51,9 @@ public class clienteTCP {
             String puntajeFinal = entrada.readLine();
             System.out.println("Puntaje final: " + puntajeFinal);
 
-            // Cerrar el socket después de salir del bucle
+            // Cerrar el socket
             socketCliente.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

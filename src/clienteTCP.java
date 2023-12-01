@@ -14,7 +14,7 @@ public class clienteTCP {
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
-                // Leer pregunta del servidor
+                // Leer pregunta del servidorr
                 while (!entrada.ready()) {
                     // Esperar hasta que haya datos disponibles
                 }

@@ -20,13 +20,15 @@ public class servidorTCP {
                 System.out.println("Cliente conectado: " + socket_cliente.getInetAddress().getHostAddress());
 
                 // Crear un hilo para manejar la conexión con el cliente
-                new hiloCliente(socket_cliente, preguntas).start();
+                hiloCliente hilo = new hiloCliente(socket_cliente, preguntas);
+                hilo.start();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private static Preguntas[] crearPreguntas() {
         preguntas[0] = new Preguntas("¿Quién fue el último campeón del fútbol Ecuatoriano?",
                 new String[]{"Barcelona", "Aucas", "Liga de Quito"}, 2);
@@ -46,4 +48,3 @@ public class servidorTCP {
         return preguntas;
     }
 }
-

@@ -44,6 +44,11 @@ public class hiloCliente extends Thread {
 
             // Enviar puntaje final al cliente
             salida.println("Tu puntaje final es: " + puntaje);
+            // Enviar la señal de "Fin" al cliente
+            salida.println("Fin");
+
+            // Cerrar el socket
+            socketCliente.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

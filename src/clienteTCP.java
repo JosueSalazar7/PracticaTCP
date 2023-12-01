@@ -12,33 +12,46 @@ public class clienteTCP {
         //Crear un socket para conectarse al servidor
 
         try {
-            Socket socket_cliente = new Socket("172.31.118.80", 5000);
-            while(true) {
-                //Enviar datos al cliente
-                String mensaje;
-                System.out.print("Escriba el mensaje: ");
+            Socket socketCliente = new Socket("localhost", 5000);
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(socketCliente.getInputStream()));
+            PrintWriter salida = new PrintWriter(socketCliente.getOutputStream(), true);
 
-
-                //Crear buffers para escribir y enviar datos al cliente
-                BufferedReader entrada = new BufferedReader(new InputStreamReader(socket_cliente.getInputStream()));
-                PrintWriter salida = new PrintWriter(socket_cliente.getOutputStream(), true);
-
-                mensaje = Scanner.nextLine();
-
-
-                if (mensaje.equalsIgnoreCase("chao")) {
-                    System.out.println("Desconectando...");
+            while (true) {
+                // Leer pregunta del servidor
+                String pregunta = entrada.readLine();
+                if (pregunta == null || pregunta.equals("Fin")) {
+                    // Si la pregunta es nula o igual a "Fin", significa que el juego ha terminado
                     break;
                 }
-                salida.println(mensaje);
-                //Leer datos recibidos desde el servidor
-                String datos_recibidos = entrada.readLine();
-                System.out.println("Mensaje recibido: " + datos_recibidos);
 
+                // Mostrar la pregunta al usuario
+                System.out.println("Pregunta: " + pregunta);
+
+                // Leer opciones de respuesta del servidor
+                for (int i = 0; i < 3; i++) {
+                    String opcion = entrada.readLine();
+                    System.out.println(opcion);
+                }
+
+                // Obtener la respuesta del usuario
+                System.out.print("Elija su respuesta (1, 2, o 3): ");
+                String respuestaUsuario = Scanner.nextLine();
+
+                // Enviar la respuesta al servidor
+                salida.println(respuestaUsuario);
+
+                // Recibir y mostrar el resultado
+                String resultado = entrada.readLine();
+                System.out.println("Resultado: " + resultado);
             }
+
+            // Recibir y mostrar el puntaje final
+            String puntajeFinal = entrada.readLine();
+            System.out.println("Puntaje final: " + puntajeFinal);
+
             // Cerrar el socket después de salir del bucle
-            socket_cliente.close();
-        }catch (IOException e){
+            socketCliente.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         }

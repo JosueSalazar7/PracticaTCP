@@ -42,25 +42,22 @@ public class hiloCliente extends Thread {
                 }
             }
 
-            // Enviar puntaje final al cliente
+           // Enviar puntaje final al cliente
             salida.println("Tu puntaje final es: " + puntaje);
             salida.flush();
 
-            // Esperar a que el cliente cierre la conexión
-            while (!socketCliente.isClosed()) {
-                String linea = entrada.readLine();
-                if (linea == null) {
-                    break;
-                }
-            }
+            // Cerrar conexión con el cliente
+            socketCliente.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar conexión con el cliente
-            try {
-                socketCliente.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Verificar si el socket no se ha cerrado
+            if (!socketCliente.isClosed()) {
+                try {
+                    socketCliente.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

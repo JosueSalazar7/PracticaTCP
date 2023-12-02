@@ -14,48 +14,46 @@ public class clienteTCP {
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
-                // Leer pregunta del servidorr
+                // Leer pregunta del servidor
                 while (!entrada.ready()) {
                     // Esperar hasta que haya datos disponibles
                 }
                 String pregunta = entrada.readLine();
-
-                if (pregunta == null || pregunta.equals("Puntaje final:")) {
-                    // Si la pregunta es nula o igual a "Fin", significa que el juego ha terminado
-                    System.out.println("Juego terminado");
+            
+                // Verificar si el juego ha terminado
+                if (pregunta.startsWith("Tu puntaje final es:")) {
+                    System.out.println(pregunta);
                     break;
                 }
-
+            
                 // Mostrar la pregunta al usuario
                 System.out.println("Pregunta: " + pregunta);
-
+            
                 // Leer opciones de respuesta del servidor
                 for (int i = 0; i < 3; i++) {
                     String opcion = entrada.readLine();
                     System.out.println(opcion);
                 }
-
+            
                 // Obtener la respuesta del usuario
                 System.out.print("Elija su respuesta (1, 2, o 3): ");
                 String respuestaUsuario = scanner.nextLine();
-
+            
                 // Enviar la respuesta al servidor
                 salida.println(respuestaUsuario);
-
+            
                 // Recibir y mostrar el resultado
                 String resultado = entrada.readLine();
                 System.out.println("Resultado: " + resultado);
             }
-
-            // Recibir y mostrar el puntaje final
-            String puntajeFinal = entrada.readLine();
-            System.out.println("Puntaje final: " + puntajeFinal);
-
+            
             // Cerrar el socket
             socketCliente.close();
+            
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+
